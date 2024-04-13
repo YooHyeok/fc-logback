@@ -1,0 +1,11 @@
+<!-- logback-spring.xml에서 참조한다.
+application configuration의 active profiles에 `local` 값을 저장한다. -->
+
+<included>
+    <!-- include시 해당 xml파일의 코드가 이곳에 재정의 된다. -->
+    <include resource="org/springframework/boot/logging/logback/console-appender.xml"/>
+
+    <root level="DEBUG">
+        <appender-ref ref="CONSOLE"/>
+    </root>
+</included>
