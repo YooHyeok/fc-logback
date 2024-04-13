@@ -1,0 +1,20 @@
+<!-- 운영 - RollingFileAppender -->
+<included>
+    <appender name="REQUEST1" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <file>logs/request1.log</file><!--파일명(경로) 지정-->
+        <rollingPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedRollingPolicy">
+            <fileNamePattern>logs/archive/request1.%d{yyyy-MM-dd}_%i.log</fileNamePattern><!-- 지정한 시간이 지나면 archive디렉토리 하위에 request1.날짜_순서.log 이름으로 저장-->
+            <maxFileSize>1KB</maxFileSize> <!-- 최대file 사이즈 -->
+            <maxHistory>30</maxHistory> <!-- 로그 파일 관리 최대 보관 주기 (단위: 일) -->
+        </rollingPolicy>
+        <encoder class="ch.qos.logback.classic.encoder.PatternLayoutEncoder">
+            <pattern>
+                [REQUEST1] [%-5level] %d{yyyy-MM-dd HH:mm:ss} [%thread] [%logger{40}:%line] - %msg%n
+            </pattern>
+            <outputPatternAsHeader>true</outputPatternAsHeader> <!-- 파일 헤더에 현재 어떠한 패턴으로 로그를 출력하는지를 함께 노출(저장) 시켜주는 설정 -->
+        </encoder>
+    </appender>
+    <root level="INFO">
+        <appender-ref ref="REQUEST1" />
+    </root>
+</included>
