@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<configuration>
+    <include resource="org/springframework/boot/logging/logback/defaults.xml"/>
+
+    <include resource="logback-spring-${spring.profiles.active}.xml"/><!-- application configuration의 active profiles에 저장된 값이 바인딩 된다.-->
+</configuration>
