@@ -31,6 +31,8 @@
             <outputPatternAsHeader>true</outputPatternAsHeader> <!-- 파일 헤더에 현재 어떠한 패턴으로 로그를 출력하는지를 함께 노출(저장) 시켜주는 설정 -->
         </encoder>
     </appender>
+
+    <!-- MDC 적용 -->
     <appender name="MDC" class="ch.qos.logback.core.rolling.RollingFileAppender">
         <file>${LOG_DIR}/mdc.log</file><!--파일명(경로) 지정-->
         <rollingPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedRollingPolicy">
@@ -45,7 +47,8 @@
             <outputPatternAsHeader>true</outputPatternAsHeader> <!-- 파일 헤더에 현재 어떠한 패턴으로 로그를 출력하는지를 함께 노출(저장) 시켜주는 설정 -->
         </encoder>
     </appender>
-    <!-- Filter -->
+
+    <!-- Filter 적용 -->
     <appender name="ERROR" class="ch.qos.logback.core.rolling.RollingFileAppender">
         <file>${LOG_DIR}/error.log</file>
         <filter class="ch.qos.logback.classic.filter.LevelFilter"><!-- Filter 옵션 추가 - 레벨 필터를 통해 레벨 단위로 필터링-->
@@ -84,11 +87,36 @@
             <outputPatternAsHeader>true</outputPatternAsHeader>
         </encoder>
     </appender>
+
+    <!-- logger 태그 적용 - Root로부터 완전히 격리되어 있는 로거를 생성하여 사용 -->
+    <appender name="QUERY" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <file>${LOG_DIR}/query.log</file><!--파일명(경로) 지정-->
+        <rollingPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedRollingPolicy">
+            <fileNamePattern>${LOG_DIR}/archive/query.%d{yyyy-MM-dd}_%i.log</fileNamePattern><!-- 지정한 시간이 지나면 archive디렉토리 하위에 request1.날짜_순서.log 이름으로 저장-->
+            <maxFileSize>10KB</maxFileSize> <!-- 최대file 사이즈 -->
+            <maxHistory>30</maxHistory> <!-- 로그 파일 관리 최대 보관 주기 (단위: 일) -->
+        </rollingPolicy>
+        <encoder class="ch.qos.logback.classic.encoder.PatternLayoutEncoder">
+            <pattern>
+                [QUERY] ${LOG_PATTERN}
+            </pattern>
+            <outputPatternAsHeader>true</outputPatternAsHeader> <!-- 파일 헤더에 현재 어떠한 패턴으로 로그를 출력하는지를 함께 노출(저장) 시켜주는 설정 -->
+        </encoder>
+    </appender>
+
     <root level="INFO">
 <!--        <appender-ref ref="REQUEST1" />-->
 <!--        <appender-ref ref="REQUEST2" />-->
 <!--        <appender-ref ref="MDC" />-->
 <!--        <appender-ref ref="ERROR" />-->
-        <appender-ref ref="WARN" />
+<!--        <appender-ref ref="WARN" />-->
+        <appender-ref ref="QUERY" />
     </root>
+
+    <!--  Custom Log(logger) - Root로부터 완전히 격리되어 있는 로거를 생성하여 사용-->
+    <!-- topic방식 -->
+    <logger name="SQL_LOG1" level="INFO" additivity="false"> <!-- additivitty : 상위로그(root)에 대한 상속여부를 정한다. (root에 등록한 appender를 출력시키지 않는다.) -->
+        <appender-ref ref="QUERY"/>
+    </logger>
+
 </included>
