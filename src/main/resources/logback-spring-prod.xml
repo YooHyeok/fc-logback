@@ -118,5 +118,8 @@
     <logger name="SQL_LOG1" level="INFO" additivity="false"> <!-- additivitty : 상위로그(root)에 대한 상속여부를 정한다. (root에 등록한 appender를 출력시키지 않는다.) -->
         <appender-ref ref="QUERY"/>
     </logger>
-
+    <!-- LoggerFactory 방식 -->
+    <logger name="SQL_LOG2" level="INFO" additivity="false">
+        <appender-ref ref="QUERY"/>
+    </logger>
 </included>
