@@ -65,10 +65,30 @@
             <outputPatternAsHeader>true</outputPatternAsHeader>
         </encoder>
     </appender>
+    <appender name="WARN" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <file>${LOG_DIR}/warn.log</file>
+        <filter class="ch.qos.logback.classic.filter.LevelFilter"><!-- Filter 옵션 추가 - 레벨 필터를 통해 레벨 단위로 필터링-->
+            <level>error</level>
+            <onMatch>ACCEPT</onMatch> <!--완전 일치하다면 로그 허용-->
+            <onMismatch>DENY</onMismatch> <!-- 완전일치하지 않으면 로그 거절 -->
+        </filter>
+        <rollingPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedRollingPolicy">
+            <fileNamePattern>${LOG_DIR}/archive/warn.%d{yyyy-MM-dd}_%i.log</fileNamePattern>
+            <maxFileSize>10KB</maxFileSize>
+            <maxHistory>30</maxHistory>
+        </rollingPolicy>
+        <encoder class="ch.qos.logback.classic.encoder.PatternLayoutEncoder">
+            <pattern>
+                [WARN] %X{job}%n
+            </pattern>
+            <outputPatternAsHeader>true</outputPatternAsHeader>
+        </encoder>
+    </appender>
     <root level="INFO">
 <!--        <appender-ref ref="REQUEST1" />-->
 <!--        <appender-ref ref="REQUEST2" />-->
 <!--        <appender-ref ref="MDC" />-->
-        <appender-ref ref="ERROR" />
+<!--        <appender-ref ref="ERROR" />-->
+        <appender-ref ref="WARN" />
     </root>
 </included>
